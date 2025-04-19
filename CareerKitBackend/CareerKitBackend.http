@@ -1,0 +1,6 @@
+@CareerKitBackend_HostAddress = http://localhost:5240
+
+GET {{CareerKitBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
