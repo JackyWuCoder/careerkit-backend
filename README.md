@@ -57,6 +57,8 @@ This project provides the core logic for the CareerKit platform, handling API re
 
 This project follows a **real-world team simulation workflow** with the following conventions:
 
+---
+
 #### 📌 Branching Strategy
 
 | Branch      | Purpose                                                                        |
