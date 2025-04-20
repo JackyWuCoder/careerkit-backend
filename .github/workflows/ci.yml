@@ -20,7 +20,7 @@ jobs:
           dotnet-version: '8.0.x' # Change this if you're using .NET 7 or another version
 
       - name: 📦 Restore dependencies
-        run: dotnet restore
+        run: dotnet restore CareerKitBackend/CareerKitBackend.csproj
 
       - name: 🛠️ Build the project
         run: dotnet build --no-restore --configuration Release
