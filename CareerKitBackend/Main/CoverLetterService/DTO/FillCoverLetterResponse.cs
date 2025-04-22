@@ -2,6 +2,6 @@
 {
 	public class FillCoverLetterResponse
 	{
-		public required string FilledCoverLetter { get; set; }
+		public required string Result { get; set; }
 	}
 }
