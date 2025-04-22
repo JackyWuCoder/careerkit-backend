@@ -1,5 +1,7 @@
 using Betalgo.Ranul.OpenAI.Extensions;
-using CareerKitBackend.Services;
+using CareerKitBackend.Main.AIService.Service;
+using CareerKitBackend.Main.APITrackerService.Service;
+using CareerKitBackend.Main.CoverLetterService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddOpenAIService(); // Loads from config (e.g., appsettings or Render env vars)
 builder.Services.AddScoped<OpenAIService>();
+builder.Services.AddScoped<TrackerService>();
+builder.Services.AddScoped<CoverLetterService>();
 
 var app = builder.Build();
 
