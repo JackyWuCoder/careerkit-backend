@@ -1,20 +1,16 @@
 ﻿using CareerKitBackend.Main.CoverLetterService.DTO;
-using CareerKitBackend.Services;
+using CareerKitBackend.Main.AIService.Service;
 using Microsoft.AspNetCore.Mvc;
+using CareerKitBackend.Main.APITrackerService.Service;
+using CareerKitBackend.Main.CoverLetterService.Service;
+using CareerKitBackend.Main.APITrackerService.Model;
 
 namespace CareerKitBackend.Main.CoverLetterService.Controller
 {
 	[Route("api/v1/[controller]")]
 	[ApiController]
-	public class CoverLetterController : ControllerBase
+	public class CoverLetterController(OpenAIService openAiService, TrackerService trackerService, Service.CoverLetterService coverLetterService) : ControllerBase
 	{
-		private readonly OpenAIService _openAiService;
-
-		public CoverLetterController(OpenAIService openAiService)
-		{
-			_openAiService = openAiService;
-		}
-
 		[HttpPost]
 		public async Task<IActionResult> Generate([FromBody] FillCoverLetterRequest request)
 		{
@@ -22,10 +18,27 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 			{
 				return BadRequest("Template and Job Description are required.");
 			}
-
-			string generated = await _openAiService.GenerateCoverLetterAsync(request.Template, request.JobDescription);
-
-			return Ok(new { result = generated });
+			// TODO: Implement getting IP address from requester
+			if (!trackerService.CanUseService(ServiceEndpointsEnum.CoverLetterAutofillService, "fillerIPHere"))
+			{
+				return BadRequest("API exhausted, wait for daily reset.");
+			}
+			try
+			{
+				string content = await openAiService.SendMessage
+				(
+					coverLetterService.GetSystemInstructions(), 
+					coverLetterService.GenerateUserMessage(request.Template, request.JobDescription)
+				);
+				// TODO: Implement getting IP address from requester
+				trackerService.DecrementUsage(ServiceEndpointsEnum.CoverLetterAutofillService, "fillerIPHere");
+				return Ok(content);
+			} 
+			catch (Exception e)
+			{
+				Console.WriteLine("WARNING COVER LETTER GENERATED FAILED: " + e.Message);
+				return StatusCode(500, "Something went wrong with generating the letter");
+			}		
 		}
 	}
 }
