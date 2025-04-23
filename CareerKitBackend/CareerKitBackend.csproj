@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Main\AdviceService\" />
-    <Folder Include="Main\CoverLetterService\Exceptions\" />
   </ItemGroup>
 
 </Project>
