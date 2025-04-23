@@ -29,7 +29,9 @@ namespace CareerKitBackend.Main.AIService.Service
 				Temperature = 0.7f
 			});
 			if (!result.Successful) throw new ChatRequestErrorException("Failed to generate chat");
+
 			string? response = result.Choices.First().Message.Content;
+			if (response == "NULL") throw new BadChatRequestException("Failed to parse the format of the request");
 			return response ?? throw new EmptyResponseException("The response received had no content");
 		}
 	}

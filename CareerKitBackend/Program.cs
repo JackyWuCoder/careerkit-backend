@@ -12,8 +12,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddOpenAIService(); // Loads from config (e.g., appsettings or Render env vars)
 builder.Services.AddScoped<OpenAIService>();
-builder.Services.AddScoped<TrackerService>();
 builder.Services.AddScoped<CoverLetterService>();
+builder.Services.AddSingleton<TrackerService>();
 
 var app = builder.Build();
 

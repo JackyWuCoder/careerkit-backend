@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using CareerKitBackend.Main.APITrackerService.Service;
 using CareerKitBackend.Main.CoverLetterService.Service;
 using CareerKitBackend.Main.APITrackerService.Model;
+using CareerKitBackend.Main.AIService.Exceptions;
 
 namespace CareerKitBackend.Main.CoverLetterService.Controller
 {
@@ -36,6 +37,11 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 			} 
 			catch (Exception e)
 			{
+				if (e is BadChatRequestException)
+				{
+					Console.WriteLine("A request went wrong: " + e.Message);
+					return BadRequest("Bad formatting on request");
+				}
 				Console.WriteLine("WARNING COVER LETTER GENERATED FAILED: " + e.Message);
 				return StatusCode(500, "Something went wrong with generating the letter");
 			}		
