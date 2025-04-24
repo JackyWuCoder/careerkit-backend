@@ -2,9 +2,9 @@
 using CareerKitBackend.Main.AIService.Service;
 using Microsoft.AspNetCore.Mvc;
 using CareerKitBackend.Main.APITrackerService.Service;
-using CareerKitBackend.Main.CoverLetterService.Service;
 using CareerKitBackend.Main.APITrackerService.Model;
 using CareerKitBackend.Main.AIService.Exceptions;
+using CareerKitBackend.Main.Utils;
 
 namespace CareerKitBackend.Main.CoverLetterService.Controller
 {
@@ -19,11 +19,23 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 			{
 				return BadRequest("Template and Job Description are required.");
 			}
-			// TODO: Implement getting IP address from requester
-			if (!trackerService.CanUseService(ServiceEndpointsEnum.CoverLetterAutofillService, "fillerIPHere"))
+
+			// Get IP address
+			string ipAddress;
+			try
+			{
+				ipAddress = RequestUtils.GetIPAddress(HttpContext);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+			// Check if IP can use service
+			if (!trackerService.CanUseService(ServiceEndpointsEnum.CoverLetterAutofillService, ipAddress))
 			{
 				return BadRequest("API exhausted, wait for daily reset.");
 			}
+			// Use AI Service
 			try
 			{
 				string content = await openAiService.SendMessage
@@ -31,8 +43,7 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 					coverLetterService.GetSystemInstructions(), 
 					coverLetterService.GenerateUserMessage(request.Template, request.JobDescription)
 				);
-				// TODO: Implement getting IP address from requester
-				trackerService.DecrementUsage(ServiceEndpointsEnum.CoverLetterAutofillService, "fillerIPHere");
+				trackerService.DecrementUsage(ServiceEndpointsEnum.CoverLetterAutofillService, ipAddress);
 				return Ok(content);
 			} 
 			catch (Exception e)
