@@ -15,25 +15,19 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 		[HttpPost]
 		public async Task<IActionResult> Generate([FromBody] FillCoverLetterRequest request)
 		{
-			if (string.IsNullOrWhiteSpace(request.Template) || string.IsNullOrWhiteSpace(request.JobDescription))
-			{
-				return BadRequest("Template and Job Description are required.");
-			}
-
-			// Get IP address
+			// Check validity of request
 			string ipAddress;
 			try
 			{
 				ipAddress = RequestUtils.GetIPAddress(HttpContext);
+				if (string.IsNullOrWhiteSpace(request.Template) || string.IsNullOrWhiteSpace(request.JobDescription))
+					return BadRequest("Template and Job Description are required.");
+				if (!trackerService.CanUseService(ServiceEndpointsEnum.CoverLetterAutofillService, ipAddress))
+					return BadRequest("API exhausted, wait for daily reset.");
 			}
 			catch (Exception e)
 			{
-				return BadRequest(e.Message);
-			}
-			// Check if IP can use service
-			if (!trackerService.CanUseService(ServiceEndpointsEnum.CoverLetterAutofillService, ipAddress))
-			{
-				return BadRequest("API exhausted, wait for daily reset.");
+				return BadRequest(e.Message); // Catches no IP requests
 			}
 			// Use AI Service
 			try
