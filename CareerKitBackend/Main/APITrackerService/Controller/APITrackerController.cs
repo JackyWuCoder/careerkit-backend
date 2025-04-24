@@ -1,6 +1,7 @@
 ﻿using CareerKitBackend.Main.APITrackerService.DTO;
 using CareerKitBackend.Main.APITrackerService.Model;
 using CareerKitBackend.Main.APITrackerService.Service;
+using CareerKitBackend.Main.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareerKitBackend.Main.APITrackerService.Controller
@@ -12,10 +13,16 @@ namespace CareerKitBackend.Main.APITrackerService.Controller
 		[HttpPost]
 		public IActionResult GetAPIStats()
 		{
-			// TODO: Implement getting IP address from requester
-			string requestIPAddress = "fillerIPHere";
-			UsageStats stats = trackerService.GetUsageStat(requestIPAddress);
-			return Ok(new GetUsageStatsResponse(stats));
+			try
+			{
+				string requestIPAddress = RequestUtils.GetIPAddress(HttpContext);
+				UsageStats stats = trackerService.GetUsageStat(requestIPAddress);
+				return Ok(new GetUsageStatsResponse(stats));
+			} 
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
 		}
 	}
 }
