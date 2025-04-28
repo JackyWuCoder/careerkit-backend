@@ -1,15 +1,18 @@
-﻿using Betalgo.Ranul.OpenAI.Managers;
-using CareerKitBackend.Main.CoverLetterService.Data;
+﻿using CareerKitBackend.Main.CoverLetterService.Data;
 
 namespace CareerKitBackend.Main.CoverLetterService.Service
 {
 	public class CoverLetterService
-	{		
-		public string GetSystemInstructions()
+	{
+		public string GetTemplateSystemInstructions()
 		{
 			return SystemInstructions.CoverLetterAutoFillInstructions;
 		}
-		public string GenerateUserMessage(string template, string jobDescription)
+		public string GetScratchSystemInstructions()
+		{
+			return SystemInstructions.CoverLetterNoTemplateInstructions;
+		}
+		public string GenerateTemplateMessage(string template, string jobDescription)
 		{
 			return $"""
 					Cover Letter Template: 
@@ -17,6 +20,13 @@ namespace CareerKitBackend.Main.CoverLetterService.Service
 
 					Job Description:
 					{jobDescription}
+				""".Trim();
+		}
+		public string GenerateScratchMessage(string jobDescription)
+		{
+			return $"""
+				Job Description:
+				{jobDescription}
 				""".Trim();
 		}
 	}
