@@ -7,11 +7,11 @@ namespace CareerKitBackend.Main.CoverLetterService.Service
 	{
 		public string GetTemplateSystemInstructions()
 		{
-			return FileParser.ReadFile("CoverLetterAutoFillInstructions.txt");
+			return FileParser.ReadFile("CoverLetterAutoFillInstructions.txt").Trim();
 		}
 		public string GetScratchSystemInstructions()
 		{
-			return FileParser.ReadFile("CoverLetterNoTemplateInstructions.txt");
+			return FileParser.ReadFile("CoverLetterNoTemplateInstructions.txt").Trim();
 		}
 		public string GenerateTemplateMessage(string template, string jobDescription)
 		{
