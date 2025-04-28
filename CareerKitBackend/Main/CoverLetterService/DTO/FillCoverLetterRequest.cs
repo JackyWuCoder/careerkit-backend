@@ -3,6 +3,6 @@
 	public class FillCoverLetterRequest
 	{
 		public required string Template { get; set; }
-		public string? JobDescription { get; set; }
+		public required string JobDescription { get; set; }
 	}
 }
