@@ -1,4 +1,5 @@
 ﻿using CareerKitBackend.Main.CoverLetterService.Data;
+using CareerKitBackend.Main.Utils;
 
 namespace CareerKitBackend.Main.CoverLetterService.Service
 {
@@ -6,11 +7,11 @@ namespace CareerKitBackend.Main.CoverLetterService.Service
 	{
 		public string GetTemplateSystemInstructions()
 		{
-			return SystemInstructions.CoverLetterAutoFillInstructions;
+			return FileParser.ReadFile("CoverLetterAutoFillInstructions.txt");
 		}
 		public string GetScratchSystemInstructions()
 		{
-			return SystemInstructions.CoverLetterNoTemplateInstructions;
+			return FileParser.ReadFile("CoverLetterNoTemplateInstructions.txt");
 		}
 		public string GenerateTemplateMessage(string template, string jobDescription)
 		{
