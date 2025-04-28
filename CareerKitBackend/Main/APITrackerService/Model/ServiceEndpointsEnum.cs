@@ -2,7 +2,8 @@
 {
 	public enum ServiceEndpointsEnum
 	{
-		CoverLetterAutofillService,		
+		CoverLetterAutofillService,
+		CoverLetterScratchService,
 		ResumeAutofillService,
 		AdviceService
 	}
