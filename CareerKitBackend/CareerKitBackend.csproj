@@ -16,4 +16,13 @@
     <Folder Include="Main\AdviceService\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\CoverLetterAutoFillInstructions.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\CoverLetterNoTemplateInstructions.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
