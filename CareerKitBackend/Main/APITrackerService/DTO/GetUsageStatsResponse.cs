@@ -6,6 +6,7 @@ namespace CareerKitBackend.Main.APITrackerService.DTO
 	{
 		public int CoverLetterAutofill { get; set; } = stats.CoverLetterAutoFillRemaining;
 		public int CoverLetterFromScratch { get; set; } = stats.CoverLetterScratchService;
+		public int CoverLetterProofread { get; set; } = stats.CoverLetterProofreadService;
 		public int ResumeAutofill { get; set; } = stats.ResumeAutoFillRemaining;
 		public int AdviceService { get; set; } = stats.AdviceServiceRemaining;
 	}

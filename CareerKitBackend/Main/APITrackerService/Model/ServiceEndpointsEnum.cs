@@ -4,6 +4,7 @@
 	{
 		CoverLetterAutofillService,
 		CoverLetterScratchService,
+		CoverLetterProofreadService,
 		ResumeAutofillService,
 		AdviceService
 	}
