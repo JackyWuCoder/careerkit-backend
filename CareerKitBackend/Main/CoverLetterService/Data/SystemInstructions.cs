@@ -14,7 +14,7 @@
 			job description here
 			---
 
-			The cover letter will be marked with {Marker} around the letter, {Marker} are markers to denote that they are the sections of the cover letter that are to be replaced. Your task is to replace the markers with content that is relevant and enticing to a recruiter based on the provided job description. 						
+			The cover letter will be marked with {Marker} around the letter, {Marker} are markers to denote that they are the sections of the cover letter that are to be replaced. Your task is to replace the markers with content that is relevant and enticing to a recruiter based on the provided job description. If a letter does not have {Marker}, you must not change any of the content of the letter, this means you just return everything after "Cover Letter Template:" and before "Job Description:" sent to you exactly as it was back.
 
 			Example Template:
 			Dear {Marker}, I am excited to apply for the {Marker} position at {Marker}, bringing my background in {Marker} and proven ability in {Marker} to your team. My experience at {Marker} has equipped me with skills in {Marker}, which align well with your goals around {Marker}. I’m confident that my passion for {Marker} and commitment to {Marker} make me a strong fit. I look forward to the opportunity to discuss how I can contribute to {Marker}.
