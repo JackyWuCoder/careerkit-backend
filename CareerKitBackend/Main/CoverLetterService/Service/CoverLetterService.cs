@@ -12,6 +12,10 @@ namespace CareerKitBackend.Main.CoverLetterService.Service
 		{
 			return SystemInstructions.CoverLetterNoTemplateInstructions;
 		}
+		public string GetProofreadSystemInstructions()
+		{
+			return SystemInstructions.CoverLetterProofreadInstructions;
+		}
 		public string GenerateTemplateMessage(string template, string jobDescription)
 		{
 			return $"""
@@ -27,6 +31,13 @@ namespace CareerKitBackend.Main.CoverLetterService.Service
 			return $"""
 				Job Description:
 				{jobDescription}
+				""".Trim();
+		}
+		public string GenerateProofreadMessage(string letter)
+		{
+			return $"""
+				Cover Letter:
+				{letter}
 				""".Trim();
 		}
 	}

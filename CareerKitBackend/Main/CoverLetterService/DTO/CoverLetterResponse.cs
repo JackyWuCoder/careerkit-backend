@@ -1,11 +1,7 @@
 ﻿namespace CareerKitBackend.Main.CoverLetterService.DTO
 {
-	public class CoverLetterResponse
+	public class CoverLetterResponse(string content)
 	{
-		public required string Result { get; set; }
-		public CoverLetterResponse(string content)
-		{
-			Result = content;
-		}
+		public string Result { get; set; } = content;
 	}
 }

@@ -29,7 +29,7 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 					coverLetterService.GenerateTemplateMessage(request.Template, request.JobDescription)
 				);
 				trackerService.DecrementUsage(ServiceEndpointsEnum.CoverLetterAutofillService, ipAddress);
-				return Ok(new CoverLetterResponse(content) { Result = content }); // TODO: Figure out better way of doing this, this way is disgusting
+				return Ok(new CoverLetterResponse(content));
 			}
 			catch (Exception e)
 			{
@@ -45,7 +45,7 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 			{
 				string ipAddress = RequestUtils.GetIPAddress(HttpContext);
 				if (!trackerService.CanUseService(ServiceEndpointsEnum.CoverLetterScratchService, ipAddress))
-					return BadRequest("API exhaused, wait for daily reset");
+					return BadRequest("API exhausted, wait for daily reset");
 
 				string content = await openAiService.SendMessage
 				(
@@ -53,7 +53,33 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 					coverLetterService.GenerateScratchMessage(request.JobDescription)
 				);
 				trackerService.DecrementUsage(ServiceEndpointsEnum.CoverLetterScratchService, ipAddress);
-				return Ok(new CoverLetterResponse(content) { Result = content });
+				return Ok(new CoverLetterResponse(content));
+			}
+			catch (Exception e)
+			{
+				return GetActionFromException(e);
+			}
+		}
+
+		[HttpPost]
+		[Route("proofread")]
+		public async Task<IActionResult> ProofreadLetter([FromBody] ProofreadCoverLetterRequest request)
+		{
+			try
+			{
+				string ipAddress = RequestUtils.GetIPAddress(HttpContext);
+				if (!trackerService.CanUseService(ServiceEndpointsEnum.CoverLetterProofreadService, ipAddress))
+					return BadRequest("API exhausted, wait for daily reset");
+				string content = await openAiService.SendMessage
+				(
+					coverLetterService.GetProofreadSystemInstructions(),
+					coverLetterService.GenerateProofreadMessage(request.CoverLetter)
+				);
+				trackerService.DecrementUsage(ServiceEndpointsEnum.CoverLetterProofreadService, ipAddress);
+				return Ok(new ProofreadCoverLetterResponse(
+					StringParseUtils.ExtractSection(content, "letter"),
+					StringParseUtils.ExtractSection(content, "advice"))
+				);
 			}
 			catch (Exception e)
 			{
