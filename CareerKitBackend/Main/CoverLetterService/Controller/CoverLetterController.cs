@@ -29,7 +29,7 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 					coverLetterService.GenerateTemplateMessage(request.Template, request.JobDescription)
 				);
 				trackerService.DecrementUsage(ServiceEndpointsEnum.CoverLetterAutofillService, ipAddress);
-				return Ok(new CoverLetterResponse(content) { Result = content }); // TODO: Figure out better way of doing this, this way is disgusting
+				return Ok(new CoverLetterResponse { Result = content });
 			}
 			catch (Exception e)
 			{
@@ -53,7 +53,7 @@ namespace CareerKitBackend.Main.CoverLetterService.Controller
 					coverLetterService.GenerateScratchMessage(request.JobDescription)
 				);
 				trackerService.DecrementUsage(ServiceEndpointsEnum.CoverLetterScratchService, ipAddress);
-				return Ok(new CoverLetterResponse(content) { Result = content });
+				return Ok(new CoverLetterResponse { Result = content });
 			}
 			catch (Exception e)
 			{
