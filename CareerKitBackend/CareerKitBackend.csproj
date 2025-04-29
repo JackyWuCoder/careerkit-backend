@@ -17,10 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\CoverLetterAutoFillInstructions.txt">
+    <None Update="Main\Resources\CoverLetterAutoFillInstructions.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\CoverLetterNoTemplateInstructions.txt">
+    <None Update="Main\Resources\CoverLetterNoTemplateInstructions.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
