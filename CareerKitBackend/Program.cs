@@ -2,6 +2,7 @@ using Betalgo.Ranul.OpenAI.Extensions;
 using CareerKitBackend.Main.AIService.Service;
 using CareerKitBackend.Main.APITrackerService.Service;
 using CareerKitBackend.Main.CoverLetterService.Service;
+using CareerKitBackend.Main.InterviewService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,14 +15,15 @@ builder.Services.AddOpenAIService(); // Loads from config (e.g., appsettings or 
 builder.Services.AddScoped<OpenAIService>();
 builder.Services.AddScoped<CoverLetterService>();
 builder.Services.AddSingleton<TrackerService>();
+builder.Services.AddScoped<InterviewService>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

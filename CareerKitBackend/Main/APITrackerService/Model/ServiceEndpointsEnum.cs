@@ -5,6 +5,7 @@
 		CoverLetterAutofillService,
 		CoverLetterScratchService,
 		CoverLetterProofreadService,
+		InterviewQuestionsService,
 		ResumeAutofillService,
 		AdviceService
 	}

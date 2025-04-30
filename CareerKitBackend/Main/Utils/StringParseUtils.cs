@@ -9,5 +9,9 @@
 			int indexTo = content.LastIndexOf(delimiter);
 			return content[indexFrom..indexTo].Trim();
 		}
+		public static List<string> ExtractList(string content)
+		{
+			return content.Split("====", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
+		}
 	}
 }

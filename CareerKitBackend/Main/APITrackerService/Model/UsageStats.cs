@@ -7,6 +7,7 @@
 		public int CoverLetterAutoFillRemaining { get; private set; } = StartingUseCount;
 		public int CoverLetterScratchService { get; private set; } = StartingUseCount;
 		public int CoverLetterProofreadService { get; private set; } = StartingUseCount;
+		public int InterviewQuestions { get; private set; } = StartingUseCount;
 		public int ResumeAutoFillRemaining { get; private set; } = StartingUseCount;
 		public int AdviceServiceRemaining { get; private set; } = StartingUseCount;
 		public void Decrement(ServiceEndpointsEnum service)
@@ -21,6 +22,9 @@
 					break;
 				case ServiceEndpointsEnum.CoverLetterProofreadService:
 					CoverLetterProofreadService--;
+					break;
+				case ServiceEndpointsEnum.InterviewQuestionsService:
+					InterviewQuestions--;
 					break;
 				case ServiceEndpointsEnum.ResumeAutofillService:
 					ResumeAutoFillRemaining--;
@@ -42,6 +46,9 @@
 
 				case ServiceEndpointsEnum.CoverLetterProofreadService:
 					return CoverLetterProofreadService;
+
+				case ServiceEndpointsEnum.InterviewQuestionsService:
+					return InterviewQuestions;
 
 				case ServiceEndpointsEnum.ResumeAutofillService:
 					return ResumeAutoFillRemaining;

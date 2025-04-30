@@ -31,7 +31,7 @@ namespace CareerKitBackend.Main.AIService.Service
 			if (!result.Successful) throw new ChatRequestErrorException("Failed to generate chat");
 
 			string? response = result.Choices.First().Message.Content;
-			if (response == "NULL") throw new BadChatRequestException("Failed to parse the format of the request");
+			if (response == "NULL") throw new BadChatRequestException("The request cannot be processed due to the content not aligning with the purposes of the service");
 			return response ?? throw new EmptyResponseException("The response received had no content");
 		}
 	}
