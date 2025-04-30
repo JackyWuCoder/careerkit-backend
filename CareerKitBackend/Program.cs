@@ -6,16 +6,34 @@ using CareerKitBackend.Main.InterviewService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
+
+// External services
 builder.Services.AddOpenAIService(); // Loads from config (e.g., appsettings or Render env vars)
+
+// Internal services (Scoped)
 builder.Services.AddScoped<OpenAIService>();
 builder.Services.AddScoped<CoverLetterService>();
-builder.Services.AddSingleton<TrackerService>();
 builder.Services.AddScoped<InterviewService>();
+
+// Internal services (Singleton)
+builder.Services.AddSingleton<TrackerService>();
+
+// CORS
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(policy =>
+	{
+		policy
+			.WithOrigins("http://127.0.0.1:5500") // frontend local origins
+			.AllowAnyHeader()
+			.AllowAnyMethod();
+	});
+});
 
 var app = builder.Build();
 
@@ -25,6 +43,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseCors(); // Enable CORS before routing
 
 app.UseHttpsRedirection();
 
