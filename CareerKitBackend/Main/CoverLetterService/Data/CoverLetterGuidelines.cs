@@ -1,8 +1,8 @@
 ﻿namespace CareerKitBackend.Main.CoverLetterService.Data
 {
-	public class CoverLetterGuidelines
+	public static class CoverLetterGuidelines
 	{
-		public static string Guidelines = """
+		public static readonly string Guidelines = """
 			Do your research - Show an employer that you’re well-prepared and interested in the job
 			What specific skills (keywords) is the organization looking for?
 			What’s the job description's tone: professional, encouraging, humorous, serious?
