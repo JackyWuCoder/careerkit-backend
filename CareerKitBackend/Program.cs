@@ -23,6 +23,18 @@ builder.Services.AddScoped<InterviewService>();
 // Internal services (Singleton)
 builder.Services.AddSingleton<TrackerService>();
 
+// CORS
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(policy =>
+	{
+		policy
+			.WithOrigins("http://127.0.0.1:5500") // frontend local origins
+			.AllowAnyHeader()
+			.AllowAnyMethod();
+	});
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +43,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseCors(); // Enable CORS before routing
 
 app.UseHttpsRedirection();
 
