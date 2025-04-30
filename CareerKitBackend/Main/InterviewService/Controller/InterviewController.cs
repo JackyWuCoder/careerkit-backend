@@ -35,6 +35,31 @@ namespace CareerKitBackend.Main.InterviewService.Controller
 				return GetActionFromException(e);
 			}
 		}
+
+		[HttpPost]
+		[Route("generate/feedback")]
+		public async Task<IActionResult> GenerateAnswersFeedback([FromBody] InterviewAnswersFeedbackRequest request)
+		{
+			try
+			{
+				string ipAddress = RequestUtils.GetIPAddress(HttpContext);
+				if (!trackerService.CanUseService(ServiceEndpointsEnum.InterviewAnswersFeedbackService, ipAddress))
+					return BadRequest("API exhausted, wait for daily reset");
+
+				string content = await openAiService.SendMessage
+				(
+					interviewService.GetGenerateAnswersFeedbackSystemInstructions(),
+					interviewService.GenerateAnswersFeedbackMessage(request.JobDescription, request.InterviewQuestion, request.InterviewAnswer)
+				);
+				trackerService.DecrementUsage(ServiceEndpointsEnum.InterviewAnswersFeedbackService, ipAddress);
+				return Ok(new InterviewAnswersFeedbackResponse(content));
+			}
+			catch (Exception e)
+			{
+				return GetActionFromException(e);
+			}
+		}
+
 		private IActionResult GetActionFromException(Exception exception) // TODO: This is just from the cover letter controller, find a better way to handle this
 		{
 			if (exception is EmptyResponseException) return StatusCode(500, "Something went wrong with generating the letter");
